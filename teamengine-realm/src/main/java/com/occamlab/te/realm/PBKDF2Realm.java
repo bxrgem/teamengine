@@ -73,10 +73,15 @@ import com.occamlab.te.realm.PasswordStorage.InvalidHashException;
 public class PBKDF2Realm extends RealmBase {
 
     private static final Logger LOGR = Logger.getLogger(PBKDF2Realm.class.getName());
+    private String rootPath = System.getProperty("TE_BASE");
     private DocumentBuilder DB = null;
     private final HashMap<String, Principal> principals = new HashMap<String, Principal>();
 
     private String password;
+
+    public String getRoot() {
+        return rootPath;
+    }
 
     /**
      * Return the Principal associated with the specified username and
@@ -141,10 +146,6 @@ public class PBKDF2Realm extends RealmBase {
         return principal;
     }
 
-    void setPassword(String password) {
-        this.password = password;
-    }
-
     private GenericPrincipal readPrincipal(String username) {
         List<String> roles = new ArrayList<String>();
         File usersdir = new File(System.getProperty("TE_BASE"), "users");
@@ -198,7 +199,7 @@ public class PBKDF2Realm extends RealmBase {
         }
         Constructor[] ctors = klass.getConstructors();
         Class firstParamType = ctors[0].getParameterTypes()[0];
-        Class[] paramTypes = new Class[] { Realm.class, String.class, List.class };
+        Class[] paramTypes = new Class[] { Realm.class, String.class, String.class, List.class };
         Object[] ctorArgs = new Object[] { this, username, roles };
         GenericPrincipal principal = null;
         try {

@@ -74,10 +74,6 @@
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
-  <listener id="FileCleanup">
-    <description xml:lang="en">Ensures that the file reaper thread (which deletes temp files) is terminated when the web application is shut down.</description>
-    <listener-class>org.apache.commons.fileupload2.jakarta.JakartaFileCleaner</listener-class>
-  </listener>
   <servlet-mapping>
     <servlet-name>TestSuiteController</servlet-name>
     <url-pattern>/rest/*</url-pattern>

@@ -138,7 +138,7 @@ public class UserFilesRealm extends RealmBase {
         }
         Constructor[] ctors = klass.getConstructors();
         Class firstParamType = ctors[0].getParameterTypes()[0];
-        Class[] paramTypes = new Class[] { Realm.class, String.class, List.class };
+        Class[] paramTypes = new Class[] { Realm.class, String.class, String.class, List.class };
         Object[] ctorArgs = new Object[] { this, username, roles };
         GenericPrincipal principal = null;
         try {

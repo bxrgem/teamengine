@@ -37,9 +37,9 @@
 
   <profiles>
     <profile>
-      <id>tomcat9</id>
+      <id>tomcat10</id>
       <properties>
-        <container>tomcat9</container>
+        <container>tomcat10</container>
       </properties>
       <activation>
         <activeByDefault>true</activeByDefault>
@@ -48,6 +48,7 @@
         <dependency>
           <groupId>org.apache.tomcat</groupId>
           <artifactId>tomcat-catalina</artifactId>
+          <version>10.1.8</version>
           <scope>provided</scope>
         </dependency>
       </dependencies>
