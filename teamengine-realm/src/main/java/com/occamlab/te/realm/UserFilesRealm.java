@@ -131,6 +131,7 @@ public class UserFilesRealm extends RealmBase {
         Class klass = null;
         try {
             klass = Class.forName("org.apache.catalina.realm.GenericPrincipal");
+            System.err.println("@@@@@ klass ok");
         } catch (ClassNotFoundException ex) {
             LOGR.log(Level.SEVERE, ex.getMessage());
             // Fortify Mod: if klass is not populated, then there is no point in going forward
@@ -148,7 +149,7 @@ public class UserFilesRealm extends RealmBase {
                 principal = (GenericPrincipal) ctor.newInstance(ctorArgs);
             } else {
                 // Realm parameter removed in Tomcat 7
-                Constructor ctor = klass.getConstructor(Arrays.copyOfRange(paramTypes, 1, paramTypes.length));
+                Constructor ctor = klass.getConstructor(Arrays.copyOfRange(paramTypes, 2, paramTypes.length));
                 principal = (GenericPrincipal) ctor.newInstance(Arrays.copyOfRange(ctorArgs, 1, ctorArgs.length));
             }
         } catch (Exception ex) {

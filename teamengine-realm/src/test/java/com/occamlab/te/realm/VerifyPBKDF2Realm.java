@@ -18,6 +18,8 @@ import org.apache.catalina.realm.GenericPrincipal;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.occamlab.te.realm.PasswordStorage.CannotPerformOperationException;
+
 public class VerifyPBKDF2Realm {
 
     private static final String USERNAME = "alpha";
@@ -31,7 +33,6 @@ public class VerifyPBKDF2Realm {
     @Test
     public void correctPassword() throws CannotPerformOperationException {
         PBKDF2Realm iut = new PBKDF2Realm();
-        iut.setPassword(PasswordStorage.createHash("correct"));
         PBKDF2Realm realmSpy = spy(iut);
         doReturn(principal).when(realmSpy).getPrincipal(USERNAME);
         Principal thePrincipal = realmSpy.authenticate(USERNAME, "correct");
@@ -41,7 +42,6 @@ public class VerifyPBKDF2Realm {
     @Test
     public void incorrectPassword() throws CannotPerformOperationException {
         PBKDF2Realm iut = new PBKDF2Realm();
-        iut.setPassword(PasswordStorage.createHash("correct"));
         PBKDF2Realm realmSpy = spy(iut);
         doReturn(principal).when(realmSpy).getPrincipal(USERNAME);
         Principal thePrincipal = realmSpy.authenticate(USERNAME, "incorrect");
@@ -52,7 +52,6 @@ public class VerifyPBKDF2Realm {
     public void invalidHash() {
         Principal other = new GenericPrincipal(USERNAME, Collections.singletonList("user"));
         PBKDF2Realm iut = new PBKDF2Realm();
-        iut.setPassword("3179a65eff2523bbde53c99b299b719c10a35235");
         PBKDF2Realm realmSpy = spy(iut);
         doReturn(other).when(realmSpy).getPrincipal(USERNAME);
         Principal thePrincipal = realmSpy.authenticate(USERNAME, "correct");
