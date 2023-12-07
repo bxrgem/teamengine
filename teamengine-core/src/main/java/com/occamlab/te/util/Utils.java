@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.util.ArrayList;
@@ -235,18 +236,25 @@ public class Utils {
     public static void copyResourceDir(URL resourceDirUrl, File destDir) throws IOException {
 
         String resourceDirUrlString = resourceDirUrl.toString();
-        String resourceDir = resourceDirUrl.getPath();
-        
-		int indexOfExcMark = resourceDirUrlString.indexOf("!");
+        int indexOfExcMark = resourceDirUrlString.indexOf("!");
 		
-		if (resourceDir.startsWith(JAR_URI_PREFIX) &&  indexOfExcMark > -1) {
+		if (resourceDirUrlString.startsWith(JAR_URI_PREFIX) &&  indexOfExcMark > -1) {
 			try {
-				copyResourcesFromJar(new JarFile(resourceDir.substring(JAR_URI_PREFIX.length(), indexOfExcMark)), resourceDir.substring(indexOfExcMark + 2), destDir);
+         		copyResourcesFromJar(new JarFile(resourceDirUrlString.substring(JAR_URI_PREFIX.length(), indexOfExcMark)), resourceDirUrlString.substring(indexOfExcMark + 2), destDir);
 			} catch (IOException e) {
 	            jlogger.log( Level.SEVERE, "Could not copy resources from jar.", e );
 			}
 		} else {
-            FileUtils.copyDirectory( new File( resourceDir ), destDir );
+            String resourceDir = resourceDirUrl.getPath();
+            File resourceDirFile=null;
+
+            if (resourceDir.startsWith("file:")) {
+                resourceDirFile=new File(URI.create(resourceDir));    
+            } else {
+                resourceDirFile=new File(resourceDir);
+            }
+
+            FileUtils.copyDirectory( resourceDirFile, destDir );
 		}
     }
 
